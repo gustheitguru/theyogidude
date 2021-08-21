@@ -13,8 +13,9 @@ const axios = require('axios');
 app.use(bodyParser.urlencoded({extended: false}));
 
 //used to make a virtual path to load images
-app.use('/images', express.static('images'));
-app.use('/assets', express.static('assets'));
+app.use('/images', express.static(__dirname + '/images'));
+app.use('/assets', express.static(__dirname + '/assets'));
+
 
 //HomePage for Data Entry for Barcodes
 router.get('/', function (req, res) {
