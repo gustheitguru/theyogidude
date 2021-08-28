@@ -8,6 +8,7 @@ const { addAbortSignal } = require('stream');
 const { request } = require('http');
 const { read } = require('fs');
 const axios = require('axios');
+const { jsPDF } = require("jspdf"); 
 
 //using body parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -17,50 +18,54 @@ app.use('/images', express.static(__dirname + '/images'));
 app.use('/assets', express.static(__dirname + '/assets'));
 
 
-//HomePage for Data Entry for Barcodes
+//HomePage for Data Entry for theyogidude
 router.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
     //__dirname : It will resolve to your project folder.
 });
 
+//Waiver for Data Entry for waiver
+router.get('/waiver', function (req, res) {
+    res.sendFile(path.join(__dirname + '/waiver.html'));
+    //__dirname : It will resolve to your project folder.
+});
+
+//temp
+router.get('/temp', function (req, res) {
+    res.sendFile(path.join(__dirname + '/temp.html'));
+    //__dirname : It will resolve to your project folder.
+});
 
 //Contact Field
 router.post('/',function (req, res){
-    let name = req.body.name
-    let email = req.body.email
-    let phone = req.body.phone
-    let message = req.body.message
-    
+
     var load = {
-        'Name': name,
-        'email': email,
-        'phone' : phone,
-        'message' : message
+        'Name': req.body.name,
+        'Email': req.body.email,
+        'Phone' : req.body.phone,
+        'Message' : req.body.message
     };
-    //console.log('contact = ' + load);
-
-    strapi(load);
+     console.log('contact = ' + load);
 
 
-});
-
-
-//back-end post to strapi DB
-function strapi (load) {
-    
+    //back-end post to strapi DB  
     axios.post('http://localhost:1337/theyogidudecontacts', load)
         .then(res => {
             console.log(`statusCode: ${res.status}`)
             console.log(res.config)
+
         })
         .catch(error => {
             console.error(error)
         })
 
-};
-
-
-
+        // // creates a PDF
+        // const doc = new jsPDF();
+        // doc.text('s', 10, 10);
+        // doc.save("_a5.pdf");
+        
+    
+});
 
 //add the router
 app.use('/', router);
