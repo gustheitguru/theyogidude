@@ -90,8 +90,11 @@ app.get('/waiver', (req, res, next)=>{
 });
 
 app.post('/waiver', (req, res, next)=>{
-    
-    console.log('post waiver complete');
+    var name = req.body.name;
+    console.log('name waiver ' + req.body.name);
+    console.log('date waiver ' + req.body.date);
+    console.log('emane waiver ' + req.body.ename);
+    console.log('etel waiver ' + req.body.etel);
 });
 
 app.get('/info', (req, res, next)=>{
@@ -104,6 +107,20 @@ app.get('/info', (req, res, next)=>{
         }
     });
     console.log('post info complete');
+});
+
+app.get('/temp', (req, res, next)=>{
+    res.render('temp', {
+        Name: 'Bob'
+    });
+    console.log('post info complete');
+});
+
+app.post('/temp', (req, res, next)=>{
+    var name = req.body.name;
+    console.log('name a' + name);
+    // console.log(req);
+
 });
 
 // app.post('/', (req, res, next)=>{
