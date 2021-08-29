@@ -1,6 +1,8 @@
+var express = require('express');
+var exphbs  = require('express-handlebars');
+var app = express();
+//-------------------------------
 const { Console } = require('console');
-const express = require('express');
-const app = express();
 const path = require('path');
 const router = express.Router();
 const bodyParser = require("body-parser");
@@ -14,60 +16,101 @@ const { jsPDF } = require("jspdf");
 app.use(bodyParser.urlencoded({extended: false}));
 
 //used to make a virtual path to load images
-app.use('/images', express.static(__dirname + '/images'));
 app.use('/assets', express.static(__dirname + '/assets'));
 
 
-//HomePage for Data Entry for theyogidude
-router.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
-    //__dirname : It will resolve to your project folder.
+var hbs = exphbs.create({
+    // Specify helpers which are only registered on this instance.
+    helpers: {
+        foo: function () { return 'FOO!'; },
+        bar: function () { return 'BAR!'; }
+    }
 });
 
-//Waiver for Data Entry for waiver
-router.get('/waiver', function (req, res) {
-    res.sendFile(path.join(__dirname + '/waiver.html'));
-    //__dirname : It will resolve to your project folder.
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+app.get('/', function (req, res, next) {
+    res.render('home', {
+        showTitle: true,
+
+        // Override `foo` helper only for this rendering.
+        helpers: {
+            foo: function () { return 'foo.'; }
+        }
+    });
+    console.log('home page');
 });
 
-//temp
-router.get('/temp', function (req, res) {
-    res.sendFile(path.join(__dirname + '/temp.html'));
-    //__dirname : It will resolve to your project folder.
-});
-
-//Contact Field
-router.post('/',function (req, res){
-
+app.post('/', (req, res, next)=>{
     var load = {
         'Name': req.body.name,
         'Email': req.body.email,
         'Phone' : req.body.phone,
         'Message' : req.body.message
     };
-     console.log('contact = ' + load);
+
+     console.log('Name = ' + load.Name); 
+     console.log('Name = ' + load.Email);
+     console.log('Name = ' + load.Phone);
+     console.log('Name = ' + load.Message);  
 
 
     //back-end post to strapi DB  
     axios.post('http://localhost:1337/theyogidudecontacts', load)
         .then(res => {
             console.log(`statusCode: ${res.status}`)
-            console.log(res.config)
+            // console.log(res.config)
 
         })
         .catch(error => {
             console.error(error)
         })
 
-        // // creates a PDF
+
+        // // // creates a PDF
         // const doc = new jsPDF();
-        // doc.text('s', 10, 10);
+        // doc.text(load, 10, 10);
         // doc.save("_a5.pdf");
-        
-    
+
+        console.log('post complete');
 });
 
-//add the router
-app.use('/', router);
+
+app.get('/waiver', (req, res, next)=>{
+    res.render('waiver', {
+        showTitle: true,
+
+        // Override `foo` helper only for this rendering.
+        helpers: {
+            foo: function () { return 'waiver.'; }
+        }
+    });
+    console.log('get waiver complete');
+});
+
+app.post('/waiver', (req, res, next)=>{
+    
+    console.log('post waiver complete');
+});
+
+app.get('/info', (req, res, next)=>{
+    res.render('info', {
+        showTitle: true,
+
+        // Override `foo` helper only for this rendering.
+        helpers: {
+            foo: function () { return 'Info.'; }
+        }
+    });
+    console.log('post info complete');
+});
+
+// app.post('/', (req, res, next)=>{
+//     console.log('post complete');
+// });
+
+
+
 app.listen(process.env.port || 3000);
 console.log('Running at Port 3000');

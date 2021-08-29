@@ -1,7 +1,7 @@
 {
-  "name": "theyogidude",
+  "name": "tyd_hb",
   "version": "1.0.0",
-  "description": "theYogiDude.com",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "dev",
@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "jspdf": "^2.3.1",
+    "express-handlebars": "^5.3.3",
     "nodemon": "^2.0.12",
     "path": "^0.12.7",
     "request": "^2.88.2",
