@@ -11,6 +11,11 @@ const { request } = require('http');
 const { read } = require('fs');
 const axios = require('axios');
 const { jsPDF } = require("jspdf"); 
+//--------------------------
+//module import
+const { emailSend } = require('./Email');
+
+ 
 
 //using body parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -43,6 +48,7 @@ app.get('/', function (req, res, next) {
 });
 
 app.post('/', (req, res, next)=>{
+    console.log(req.body)
     var load = {
         'Name': req.body.name,
         'Email': req.body.email,
@@ -51,9 +57,9 @@ app.post('/', (req, res, next)=>{
     };
 
      console.log('Name = ' + load.Name); 
-     console.log('Name = ' + load.Email);
-     console.log('Name = ' + load.Phone);
-     console.log('Name = ' + load.Message);  
+     console.log('Email = ' + load.Email);
+     console.log('Phone = ' + load.Phone);
+     console.log('Message = ' + load.Message);  
 
 
     //back-end post to strapi DB  
@@ -64,7 +70,7 @@ app.post('/', (req, res, next)=>{
 
         })
         .catch(error => {
-            console.error(error)
+            // console.error(error)
         })
 
 
@@ -90,11 +96,34 @@ app.get('/waiver', (req, res, next)=>{
 });
 
 app.post('/waiver', (req, res, next)=>{
-    var name = req.body.name;
-    console.log('name waiver ' + req.body.name);
-    console.log('date waiver ' + req.body.date);
-    console.log('emane waiver ' + req.body.ename);
-    console.log('etel waiver ' + req.body.etel);
+    var load = {
+        'Name' : req.body.name,
+        'Date' : req.body.date,
+        'Email' : req.body.email,
+        'Emane': req.body.ename,
+        'Etel': req.body.etel,
+        'Check': req.body.checkbox
+    }
+
+    // console.log('Check waiver ' + req.body.checkbox);
+    // console.log('name waiver ' + req.body.name);
+    // console.log('date waiver ' + req.body.date);
+    // console.log('emane waiver ' + req.body.ename);
+    // console.log('etel waiver ' + req.body.etel);
+    // console.log('Check waiver ' + req.body.checkbox);
+
+    //back-end post to strapi DB  
+    axios.post('http://localhost:1337/waivers', load)
+        .then(res => {
+            console.log(`statusCode: ${res.status}`)
+            // console.log(res.config)
+
+        })
+        .catch(error => {
+            console.error(error)
+        })
+
+    emailSend(load);
 });
 
 app.get('/info', (req, res, next)=>{

@@ -1,4 +1,7 @@
+<div class="container border border-secondary">
+
 <form action="/waiver" method="POST">
+
         <p style="font-family:Times New Roman;color:#000000;text-align:Center;"><span style="font-style:normal;font-weight:bold;text-decoration:underline;">Activity Waiver &amp; Release</span>
         </p>
         <p style="font-family:Times New Roman;color:#000000;text-align:Left;"><span style="font-style:normal;font-weight:bold;">THIS ACTIVITY WAIVER &amp; RELEASE </span>(this "Agreement") dated <input type="date" id="start" required="" name="
@@ -46,8 +49,13 @@
           <li style="margin-bottom:0.0pt;" value="11"><span>Participant</span><br>Emergency contact name:<input type="text" id="ename" name="ename" placeholder="Contact Namee">  <br>Emergency contact phone number: <input type="tel" id="etel" name="etel" placeholder="Phone Number"> <span style="color:#000000;"><br></span>
           </li>
         </ol><br class="pageBreak"><div>
-        <p style="font-family:Times New Roman;color:#000000;text-align:Left;"><span style="font-style:normal;font-weight:bold;"> &nbsp; &nbsp;&nbsp;<input type="checkbox" required=""> &nbsp; In signing this Agreement, I acknowledge that I have read both sides of this Release Agreement form, understand it, and agree to be bound by its terms. <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I further acknowledge that I sign this Release Agreement voluntarily and I am at least eighteen years of age.  <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="submit" value="submit" ><br>
-        </p>
+          <div class="container">
+            <p style="margin-bottom:0.0pt;" value="11"><br>Please enter your Email:<input type="text" id="email" name="email" placeholder="Email"><span style="color:#000000;"></span><br></span>
+          </li>
+        <p style="font-family:Times New Roman;color:#000000;text-align:Left;"><span style="font-style:normal;font-weight:bold;"> <input type="checkbox" name="checkbox" id="checkbox" value="Agreed" required=""> &nbsp; By click on this box, I am signing this Agreement, I acknowledge that I have read both sides of this Release Agreement form, understand it, and agree to be bound by its terms. I further acknowledge that I sign this Release Agreement voluntarily and I am at least eighteen years of age.  <br> 
+        </p></div>
+          <button type="submit" value="submit" class="btn btn-primary">Submit</button> 
+          <button type="button" class="btn btn-success">Donate</button> <br>
         <p style="font-family:Times New Roman;color:#000000;text-align:Left;margin-top:-16.0pt;">
         </p>
 
@@ -58,7 +66,6 @@
             </div>
           </div>
         </div>
-                  </div>
-
-  
+        </div>
 </form> 
+</div>  
