@@ -14,7 +14,8 @@ const { jsPDF } = require("jspdf");
 //--------------------------
 //module import
 const { emailSend } = require('./Email');
-
+const { tdate } = require('./Date');
+const { pdfWrite } = require('./pdf');
  
 
 //using body parser
@@ -44,6 +45,7 @@ app.get('/', function (req, res, next) {
             foo: function () { return 'foo.'; }
         }
     });
+   
     console.log('home page');
 });
 
@@ -71,21 +73,19 @@ app.post('/', (req, res, next)=>{
         })
         .catch(error => {
             // console.error(error)
-        })
-
-
-        // // // creates a PDF
-        // const doc = new jsPDF();
-        // doc.text(load, 10, 10);
-        // doc.save("_a5.pdf");
+        });
 
         console.log('post complete');
 });
 
 
 app.get('/waiver', (req, res, next)=>{
+
+    let date = tdate;
+    console.log(date);
+
     res.render('waiver', {
-        showTitle: true,
+        'date': date,
 
         // Override `foo` helper only for this rendering.
         helpers: {
@@ -97,20 +97,19 @@ app.get('/waiver', (req, res, next)=>{
 
 app.post('/waiver', (req, res, next)=>{
     var load = {
+        'fName' : req.body.fname,
+        'lName' : req.body.lname,
+        'Phone' : req.body.pnum,
         'Name' : req.body.name,
         'Date' : req.body.date,
-        'Email' : req.body.email,
-        'Emane': req.body.ename,
-        'Etel': req.body.etel,
+        'Email' : req.body.Email,
+        'eNane': req.body.ename,
+        'eTel': req.body.etel,
         'Check': req.body.checkbox
     }
 
-    // console.log('Check waiver ' + req.body.checkbox);
-    // console.log('name waiver ' + req.body.name);
-    // console.log('date waiver ' + req.body.date);
-    // console.log('emane waiver ' + req.body.ename);
-    // console.log('etel waiver ' + req.body.etel);
-    // console.log('Check waiver ' + req.body.checkbox);
+    //make PDF Document
+    pdfWrite(load);
 
     //back-end post to strapi DB  
     axios.post('http://localhost:1337/waivers', load)
@@ -123,7 +122,18 @@ app.post('/waiver', (req, res, next)=>{
             console.error(error)
         })
 
+    //send PDF to client and owner
     emailSend(load);
+
+    res.render('home', {
+        showTitle: true,
+
+        // Override `foo` helper only for this rendering.
+        helpers: {
+            foo: function () { return 'Info.'; }
+        }
+    });
+    
 });
 
 app.get('/info', (req, res, next)=>{

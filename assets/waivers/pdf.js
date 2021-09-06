@@ -1,25 +1,23 @@
 const { jsPDF } = require("jspdf");
-
 // You'll need to make your image into a Data URL
 // Use http://dataurl.net/#dataurlmaker
 // doc.addImage(imgData, 'JPEG', 15, 40, 180, 160)
 // var imgData = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/
 
 var pdfWrite = (load) => {
-    // console.log(load)
 var doc = new jsPDF();
-var fName = load.fName
-var date = load.Date
-var Name = load.Name
-var lName = load.lName
-var Email = load.Email
-var Phone = load.Phone
-var eName = load.eName
-var ePhone = load.ePhone
+var fName = 'bob'
+var date = '11.21.21'
+var Name = ''
+var lName = ''
+var eMail = ''
+var Phone = ''
+var eName = ''
+var ePhone = ''
 doc.setFontSize(12)
 // doc.addImage('./images/theyogidude.png','png',7,40,100,100)
 doc.text(75, 15, 'Activity Waiver & Release')
-doc.text(10, 30,'THIS ACTIVITY WAIVER & RELEASE (this "Agreement") dated '+ date + ' BETWEEN: ' + Name)
+doc.text(10, 30,'THIS ACTIVITY WAIVER & RELEASE (this "Agreement") dated '+ date + ' BETWEEN: ' + fName)
 doc.text(10,35,'of (the "Participant") OF THE FIRST PART AND Augusto Rodriguez of 16425 Harbor blvd, ')
 doc.text(10,40, 'unit 139 Fountain Valley, ca 92708 (the "Activity Provider") OF THE SECOND PART IN')
 doc.text(10,45,'CONSIDERATION OF the covenants and agreements contained in this Agreement and other')
@@ -59,21 +57,21 @@ doc.text(14,205," contractual and not a mere recital.")
 doc.text(10,210,"Governing Law")
 doc.text(10,215,"10. This Agreement will be governed by and construed in accordance with the laws of the State of California.")
 doc.text(10,220,"Personal Information")
-doc.text(14,225,"Frist Name: "+ fName)
-doc.text(14,230,"Last Name: "+ lName)
-doc.text(14,235,"eMail: "+ Email)
-doc.text(14,240,"Phone: "+ Phone)
+doc.text(14,225,"Frist Name: "+ Name)
+doc.text(14,230,"Last Name: "+lName)
+doc.text(14,235,"eMail: "+eMail)
+doc.text(14,240,"Phone: "+Phone)
 doc.text(10,245,"Emergency Contact")
-doc.text(14,250,"Emergency contact name: "+ eName)
-doc.text(14,255,"Emergency contact phone number: "+ ePhone)
+doc.text(14,250,"Emergency contact name: "+eName)
+doc.text(14,255,"Emergency contact phone number: "+ePhone)
 doc.text(10,260," [X] By click on this box, I am signing this Agreement, I acknowledge that I have read both sides of this Release")
 doc.text(10,265," Agreement form, understand it, and agree to be bound by its terms. I further acknowledge that I sign this")
 doc.text(10,270,"Release Agreement voluntarily and I am at least eighteen years of age.")
-doc.save(date+fName+'.pdf');
+doc.save('/assests/waivers/'+date+fName+'.pdf');
 
 };
 
-// pdfWrite();
+pdfWrite();
 
 
 module.exports = {
